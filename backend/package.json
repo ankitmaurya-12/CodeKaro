@@ -1,0 +1,23 @@
+{
+  "name": "codekaro",
+  "version": "1.0.0",
+  "description": "Real time code sharing app",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node backend/server.js",
+    "dev": "nodemon backend/server.js",
+    "build": "npm install && cd frontend && npm install && npm run build"
+  },
+  "keywords": [
+    "codeKare",
+    "code",
+    "editor"
+  ],
+  "author": "Ankit Maurya",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.2.1",
+    "socket.io": "^4.8.3"
+  }
+}
