@@ -1,3 +1,4 @@
+const axios = require('axios');
 const express = require('express');
 const http = require('http');
 const {Server} = require('socket.io');
@@ -69,6 +70,38 @@ io.on('connection', (socket) => {
     socket.on("languageChange", ({roomId, language})=>{
         io.to(roomId).emit("languageUpdate", language);
     })
+
+    // Compile Code 
+    socket.on("compileCode", async ({ code, roomId, language, version }) => {
+      if (rooms.has(roomId)) {
+        const room = rooms.get(roomId);
+        try {
+          const response = await axios.post(
+            "https://emkc.org/api/v2/piston/execute",
+            {
+              language,
+              version,
+              files: [
+                {
+                  content: code,
+                },
+              ],
+            }
+          );
+
+          room.output = response.data.run.output;
+          io.to(roomId).emit("codeResponse", response.data);
+        } catch (error) {
+            console.error("Error executing code:", error.response?.data || error.message);
+          
+            io.to(roomId).emit("codeResponse", {
+              run: {
+                output: error.response?.data?.message || "Error executing code"
+              }
+            });
+          }
+      }
+    });
 
     //to leave user  when click on leave button (same code as belowe "disconnect")
     socket.on('leaveRoom',()=>{

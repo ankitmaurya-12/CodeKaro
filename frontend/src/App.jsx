@@ -16,6 +16,9 @@ function App() {
   const [typing, setTyping] = useState([]);
   // const [typing, setTyping] = useState("");
 
+  const [output, setOutput] = useState(" ");
+  const [version, setVersion] = useState("*");
+
   useEffect(()=>{
     socket.on("userJoined", (users)=>{
       setUsers(users);
@@ -52,12 +55,17 @@ function App() {
     socket.on("languageUpdate",(newLanguage)=>{
       setLanguage(newLanguage);
     })
+
+    socket.on("codeResponse", (response)=>{
+      setOutput(response.run.output)
+    })
     
     return ()=>{
       socket.off("userJoined");
       socket.off("codeUpdate");
       socket.off("userTyping");
       socket.off("languageUpdate");
+      socket.off("codeResponse");
     }
   },[]);
 
@@ -114,6 +122,9 @@ function App() {
     socket.emit("languageChange", {roomId, language: newLanguage});
   }
 
+  const runCode = () =>{
+    socket.emit("compileCode", {code, roomId, language, version});
+  }
 
   if (!joined) {
     return (
@@ -160,10 +171,10 @@ function App() {
 
         {/* <p className="typing-indicator">{typing}</p> */}
 
-        {typing.length >0 && (
-        <p className="typing-indicator">
-          {typing.map((u) => `${u.slice(0, 8)}...`).join(", ")} typing...
-        </p>
+        {typing.length > 0 && (
+          <p className="typing-indicator">
+            {typing.map((u) => `${u.slice(0, 8)}...`).join(", ")} typing...
+          </p>
         )}
 
         <select
@@ -177,12 +188,14 @@ function App() {
           <option value="java">Java</option>
           <option value="cpp">C++</option>
         </select>
-        <button className="leave-button" onClick={leaveRoom}>Leave Room</button>
+        <button className="leave-button" onClick={leaveRoom}>
+          Leave Room
+        </button>
       </div>
 
       <div className="editor-wrapper">
         <Editor
-          height={"100%"}
+          height={"60%"}
           defaultLanguage={language}
           language={language}
           value={code}
@@ -193,6 +206,18 @@ function App() {
             fontSize: 14,
           }}
         />
+        <div className="compiler">
+        <button className="run-btn" onClick={runCode}>
+          Execute
+        </button>
+        <textarea
+          // rows="10"
+          className="output-console"
+          value={output}
+          readOnly
+          placeholder="Output will be here ..."
+        />
+      </div>
       </div>
     </div>
   );

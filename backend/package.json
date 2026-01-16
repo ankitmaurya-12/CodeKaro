@@ -17,6 +17,7 @@
   "author": "Ankit Maurya",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.13.2",
     "express": "^5.2.1",
     "socket.io": "^4.8.3"
   }

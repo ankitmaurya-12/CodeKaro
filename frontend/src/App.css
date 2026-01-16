@@ -95,12 +95,12 @@ body {
         }
       }
 
-      .copy-sucess{
-        margin-top: .3rem;
-        margin-left: .5rem;
+      .copy-sucess {
+        margin-top: 0.3rem;
+        margin-left: 0.5rem;
         color: rgb(3, 255, 3);
         font-size: 0.8rem;
-        font-style:oblique;
+        font-style: oblique;
       }
     }
 
@@ -131,15 +131,15 @@ body {
       border-radius: 4px;
     }
 
-    .language-selector{
-        width: 100%;
-        margin-top: 1rem;
-        padding: .5rem;
-        background-color: #fff;
-        border: none;
-        border-radius: 4px;
+    .language-selector {
+      width: 100%;
+      margin-top: 1rem;
+      padding: 0.5rem;
+      background-color: #fff;
+      border: none;
+      border-radius: 4px;
     }
-    
+
     .leave-button {
       margin-top: 1rem;
       width: 100%;
@@ -161,5 +161,35 @@ body {
   .editor-wrapper {
     flex-grow: 1;
     background-color: #fff;
+  }
+}
+
+.compiler {
+  background-color: #333333;
+
+  .run-btn{
+    background-color: rgb(7, 160, 7);
+    margin: 5px;
+      padding: .75rem;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #357abd;
+      }
+    
+  }
+
+  .output-console{
+    width: 100%;
+    margin: 5px;
+    padding: 10px;
+    background-color: #262626;
+    font-size: 20px;
+    height: 200px;
   }
 }
